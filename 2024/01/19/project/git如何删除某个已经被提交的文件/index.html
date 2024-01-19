@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>git如何删除某个已经被提交的文件 | Utopia</title><meta name="author" content="老罗素"><meta name="copyright" content="老罗素"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言今天git push的时候一直上传不上去, 提醒我gitlab拒绝了我的请求, 我首先黑人问号, 然后想到了我提前不小心把我那个1G的镜像也提交了,所以有了这次的经历,我这次的经历还是比较曲折的, 首先, 那个要删除的文件本身并不是在我当前提交下的, 它是我提交了三个分支以后发现的问题, 导致我无法直接git checkout切回那个分支将它删除,同时也无法使用git rm --cached">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git如何删除某个已经被提交的文件">
+<meta property="og:url" content="http://cjz-lxg.com/2024/01/19/project/git%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B7%B2%E7%BB%8F%E8%A2%AB%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Utopia">
+<meta property="og:description" content="前言今天git push的时候一直上传不上去, 提醒我gitlab拒绝了我的请求, 我首先黑人问号, 然后想到了我提前不小心把我那个1G的镜像也提交了,所以有了这次的经历,我这次的经历还是比较曲折的, 首先, 那个要删除的文件本身并不是在我当前提交下的, 它是我提交了三个分支以后发现的问题, 导致我无法直接git checkout切回那个分支将它删除,同时也无法使用git rm --cached">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cjz-lxg.com/photo/58D5EC76552A42FF110A6EF6AE228475.png">
+<meta property="article:published_time" content="2024-01-19T07:32:35.000Z">
+<meta property="article:modified_time" content="2024-01-19T09:27:59.000Z">
+<meta property="article:author" content="老罗素">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cjz-lxg.com/photo/58D5EC76552A42FF110A6EF6AE228475.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://cjz-lxg.com/2024/01/19/project/git%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B7%B2%E7%BB%8F%E8%A2%AB%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%87%E4%BB%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 老罗素","link":"链接: ","source":"来源: Utopia","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'git如何删除某个已经被提交的文件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-19 17:27:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">53</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url('/photo/58D5EC76552A42FF110A6EF6AE228475.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Utopia"><span class="site-name">Utopia</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">git如何删除某个已经被提交的文件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-19T07:32:35.000Z" title="发表于 2024-01-19 15:32:35">2024-01-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-19T09:27:59.000Z" title="更新于 2024-01-19 17:27:59">2024-01-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/project/">project</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="git如何删除某个已经被提交的文件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天git push的时候一直上传不上去, 提醒我gitlab拒绝了我的请求, 我首先黑人问号, 然后想到了我提前不小心把我那个1G的镜像也提交了,所以有了这次的经历,我这次的经历还是比较曲折的, 首先, 那个要删除的文件本身并不是在我当前提交下的, 它是我提交了三个分支以后发现的问题, 导致我无法直接<code>git checkout</code>切回那个分支将它删除,同时也无法使用<code>git rm --cached 文件名</code>将它删除, 同时我错误的提问导致了gpt给了我个错误的命令<code>git revert</code> ,导致我删除了那个提交下的全部文件, 同时, 在我看到结果不对时 , 我错误的理解<code>git revert</code>的作用, 使用了错误的命令<code>git reset 提交记录</code>到了前面的提交,这大致就是我一整个经过,下面是我解决这个问题的过程</p>
+<h1 id="删除经过"><a href="#删除经过" class="headerlink" title="删除经过"></a>删除经过</h1><p>首先, 因为我印象中廖雪峰讲过, <code>git log</code>的提交记录虽然会因为<code>git reset</code>而变得没有后面的提交, 但是实际上,它是不会删除后面的提交的, 只要我知道了后面提交的hash值, 则可以回到后面的分支, 由此复原到了<code>git revert</code>阶段</p>
+<p>然后我通过询问gpt , 知道了<code>git revert</code>命令本身是可以通过继续<code>git revert</code>前面<code>git revert</code>命令生成的hash值来复原结果的, 所以我<code>git revert</code>了前面的hash值, 还原到了没有使用<code>git revert</code>阶段 </p>
+<p>然后, 我询问gpt , 我应该如何删除所有历史提交记录中的某个文件,他给了我这个代码<code>git filter-branch --index-filter &quot;git rm --cached --ignore-unmatch myfile.txt&quot; HEAD</code>, 终于, 我完成了我的需求</p>
+<h1 id="git-revert的工作原理"><a href="#git-revert的工作原理" class="headerlink" title="git revert的工作原理"></a>git revert的工作原理</h1><p><code>git revert</code> 命令在 Git 中用于“还原”之前的提交所做的更改。然而，这并不意味着删除或撤销之前的提交。相反，<code>git revert</code> 会创建一个新的提交，这个新提交包含了撤销之前指定提交更改的内容。这样做的结果是，之前的提交在项目历史中仍然存在，但是它的影响被新的提交所“抵消”。</p>
+<p>这是 <code>git revert</code> 做的事情的具体步骤：</p>
+<ol>
+<li><strong>选择提交</strong>：当你运行 <code>git revert [commit-hash]</code> 时，你需要指定要还原的提交的哈希值。</li>
+<li><strong>生成反向更改</strong>：Git 会查看你指定的提交所做的更改，并生成一个新的”反向更改”集。这些更改与原始提交相反，用于取消原始提交的效果。</li>
+<li><strong>创建新提交</strong>：Git 将这些反向更改作为一个新的提交应用到当前分支上。这个新提交是原始提交的直接对立面。</li>
+<li><strong>保留历史</strong>：原始提交仍然存在于历史中，因为 <code>git revert</code> 并不修改既有的历史。</li>
+<li><strong>不影响分支</strong>：<code>git revert</code> 不会更改分支的引用。这意味着，与 <code>git reset</code> 不同，<code>git revert</code> 不会移动分支指针。</li>
+</ol>
+<p>使用 <code>git revert</code> 的好处是它是一种安全的操作，因为它不会改变项目的历史。这使得它特别适合团队环境，因为它不会影响其他团队成员的历史。</p>
+<p>例如，如果你在公共分支上错误地提交了一个更改并推送到了远程仓库，使用 <code>git revert</code> 可以创建一个新提交来抵消这个更改，而不需要重写项目历史或使用强制推送（<code>git push --force</code>），后者可能会导致其他团队成员遇到问题。</p>
+<h2 id="坑爹之处"><a href="#坑爹之处" class="headerlink" title="坑爹之处"></a>坑爹之处</h2><p>当您执行 <code>git revert</code> 命令针对第四次提交时，Git 会创建一个新的提交，这个新提交包含了撤销第四次提交所做更改的内容。这个操作不会直接修改第四次提交本身，也不会改变第五次或第六次提交的内容。</p>
+<p>然而，由于第四次提交的更改被新提交所抵消，它可能会间接影响第五次和第六次提交，具体情况取决于这些提交之间的关系。如果第五次和第六次提交与第四次提交没有修改同一部分代码，则它们不会受到直接影响。但如果第五次和第六次提交是在第四次提交所做更改的基础上进行的，那么撤销第四次提交可能会导致合并冲突，因为现在的项目状态与它们的基础不再一致。</p>
+<p>在这种情况下，可能需要手动解决合并冲突。如果第五次和第六次提交依赖于第四次提交所引入的代码，那么撤销第四次提交可能会导致这些后续提交的代码不再有效或出现错误。</p>
+<p>因此，尽管 <code>git revert</code> 不会改变现有提交的历史，但如果有后续提交依赖于被还原的提交所做的更改，这可能会引入复杂性。在执行 <code>git revert</code> 之后，您应该运行测试并仔细检查项目的状态，确保一切都按预期工作。</p>
+<p>在团队环境中，如果您需要撤销一个公共分支上的提交，最好是与团队沟通更改，确保每个人都了解需要进行的调整。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://cjz-lxg.com/">老罗素</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://cjz-lxg.com/2024/01/19/project/git%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B7%B2%E7%BB%8F%E8%A2%AB%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%87%E4%BB%B6/">http://cjz-lxg.com/2024/01/19/project/git如何删除某个已经被提交的文件/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://cjz-lxg.com" target="_blank">Utopia</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">git</a></div><div class="post_share"><div class="social-share" data-image="/photo/58D5EC76552A42FF110A6EF6AE228475.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/01/02/backend/java/Java%E4%B8%AD%E5%85%B3%E4%BA%8EAQS%E7%9A%84final%E8%AE%BE%E8%AE%A1/" title="Java中关于AQS的final设计"><img class="cover" src="/photo/D0B985C47B2A38724C95AFD518E1C9CC.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java中关于AQS的final设计</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/12/19/tools/gitlab%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE/" title="gitlab克隆项目"><img class="cover" src="/photo/2C9009102843BE21D3E592946199255D.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-19</div><div class="title">gitlab克隆项目</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">老罗素</div><div class="author-info__description">it's Loki not Mimir</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">53</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cjz-lxg?tab=repositories"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cjz-lxg" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">使用obsdian编写blog,所以博客内容会呈现碎片化,同时部分链接无法会跳转到莫名奇妙的位置,同时部分blog内容由gpt生成,但经过本人核验和修改,基本没有什么太大问题,除了是英文,当你在阅读时如果出现问题,请借助各种翻译软件,同时,我在后记中提到的前置知识在博客中都有,如果你确实需要,可以寻找下</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%BB%8F%E8%BF%87"><span class="toc-number">2.</span> <span class="toc-text">删除经过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-revert%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">git revert的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%91%E7%88%B9%E4%B9%8B%E5%A4%84"><span class="toc-number">3.1.</span> <span class="toc-text">坑爹之处</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/19/project/git%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B7%B2%E7%BB%8F%E8%A2%AB%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%87%E4%BB%B6/" title="git如何删除某个已经被提交的文件"><img src="/photo/58D5EC76552A42FF110A6EF6AE228475.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git如何删除某个已经被提交的文件"/></a><div class="content"><a class="title" href="/2024/01/19/project/git%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B7%B2%E7%BB%8F%E8%A2%AB%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%87%E4%BB%B6/" title="git如何删除某个已经被提交的文件">git如何删除某个已经被提交的文件</a><time datetime="2024-01-19T07:32:35.000Z" title="发表于 2024-01-19 15:32:35">2024-01-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/02/backend/java/Java%E4%B8%AD%E5%85%B3%E4%BA%8EAQS%E7%9A%84final%E8%AE%BE%E8%AE%A1/" title="Java中关于AQS的final设计"><img src="/photo/D0B985C47B2A38724C95AFD518E1C9CC.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中关于AQS的final设计"/></a><div class="content"><a class="title" href="/2024/01/02/backend/java/Java%E4%B8%AD%E5%85%B3%E4%BA%8EAQS%E7%9A%84final%E8%AE%BE%E8%AE%A1/" title="Java中关于AQS的final设计">Java中关于AQS的final设计</a><time datetime="2024-01-02T11:16:07.000Z" title="发表于 2024-01-02 19:16:07">2024-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/02/backend/java/Java%E4%B8%ADLock%E6%8E%A5%E5%8F%A3%E9%94%81%E4%BD%8F%E7%9A%84%E7%A9%B6%E7%AB%9F%E6%98%AF%E4%BB%80%E4%B9%88/" title="Java中Lock接口锁住的究竟是什么"><img src="/photo/8E89B741D9F0AE5545109D4A9B58E859.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中Lock接口锁住的究竟是什么"/></a><div class="content"><a class="title" href="/2024/01/02/backend/java/Java%E4%B8%ADLock%E6%8E%A5%E5%8F%A3%E9%94%81%E4%BD%8F%E7%9A%84%E7%A9%B6%E7%AB%9F%E6%98%AF%E4%BB%80%E4%B9%88/" title="Java中Lock接口锁住的究竟是什么">Java中Lock接口锁住的究竟是什么</a><time datetime="2024-01-02T08:28:58.000Z" title="发表于 2024-01-02 16:28:58">2024-01-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/19/tools/gitlab%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE/" title="gitlab克隆项目"><img src="/photo/2C9009102843BE21D3E592946199255D.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gitlab克隆项目"/></a><div class="content"><a class="title" href="/2023/12/19/tools/gitlab%E5%85%8B%E9%9A%86%E9%A1%B9%E7%9B%AE/" title="gitlab克隆项目">gitlab克隆项目</a><time datetime="2023-12-19T08:10:50.000Z" title="发表于 2023-12-19 16:10:50">2023-12-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/15/project/%E4%BD%BF%E7%94%A8dockerfile%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/" title="使用dockerfile构建镜像"><img src="/photo/65B9EF50CA1267CCB0C7DDD28738E766.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用dockerfile构建镜像"/></a><div class="content"><a class="title" href="/2023/12/15/project/%E4%BD%BF%E7%94%A8dockerfile%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/" title="使用dockerfile构建镜像">使用dockerfile构建镜像</a><time datetime="2023-12-15T09:55:30.000Z" title="发表于 2023-12-15 17:55:30">2023-12-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/photo/58D5EC76552A42FF110A6EF6AE228475.png')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By 老罗素</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><img src="/img/beian.png" style="display:inline-block;text-decoration:none;height:13px;"/><a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">闽公网安备 35018202000415号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="fasle"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover1.webp);"> <a class="categoryBar-list-link" href="categories/linux/">linux</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">Ubuntu指南</span></li><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover2.webp);"> <a class="categoryBar-list-link" href="categories/reverse/">reverse</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr">玩转Win10</span></li><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover3.webp);"> <a class="categoryBar-list-link" href="categories/web/">web</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">长篇小说连载</span></li><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover4.webp);"> <a class="categoryBar-list-link" href="categories/小trick/">小trick</a><span class="categoryBar-list-count">10</span><span class="categoryBar-list-descr">个人日记</span></li><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover5.webp);"> <a class="categoryBar-list-link" href="categories/tools/">tools</a><span class="categoryBar-list-count">11</span><span class="categoryBar-list-descr">诗词歌赋</span></li><li class="categoryBar-list-item" style="background:url(https://npm.elemecdn.com/akilar-candyassets/image/cover6.webp);"> <a class="categoryBar-list-link" href="categories/后端开发工程师的前端小记/">后端开发工程师的前端小记</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr">杂谈教程</span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/OS/">OS</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/java/">java</a><span class="categoryBar-list-count">16</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/project/">project</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/业务组件/">业务组件</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/categories'|| '/categories' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --></body></html>
